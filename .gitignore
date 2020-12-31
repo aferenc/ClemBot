@@ -154,3 +154,6 @@ dmypy.json
 
 # Cython debug symbols
 cython_debug/
+bot/cogs/.DS_Store
+bot/.DS_Store
+.DS_Store
