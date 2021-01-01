@@ -19,15 +19,19 @@ class UnitConvertCog(commands.Cog):
     USE: unitconvert <quantity> <source unit> <desired unit>
     EXAMPLE: unitconvert 12.0 inches feet
     """
-    # TO-DO: handle cases of temperature conversion, as temps can't be created using the "number * ureg('unit')"" method
     
     try:
+      # Grab the registry of common units and a Quantity object
       ureg = UnitRegistry()
+      Q_ = ureg.Quantity
+      # Convert the number parameter to an numeric value
       sourceNumber = float(number)
-      quantity = sourceNumber * ureg(sourceUnit)
+      # Create the source quantity using the Quantity constructor
+      quantity = Q_(sourceNumber, sourceUnit)
+      # Get the converted value and print the final results
       convertedQuantity = quantity.to(desiredUnit)
       msg = await ctx.send(f"{sourceNumber} {sourceUnit} is {convertedQuantity.magnitude} {desiredUnit}")
-    except UndefinedUnitError as e: # If at least one of the given units doesn't exist
+    except UndefinedUnitError as e: # If at least one of the given units doesn't exist in the registry
       msg = await ctx.send(e)
     except DimensionalityError as e: # If an invalid conversion is attempted
       msg = await ctx.send(e)
